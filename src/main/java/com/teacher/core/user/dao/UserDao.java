@@ -9,11 +9,30 @@ import com.teacher.core.user.model.User;
  * @Modified By:
  */
 public interface UserDao {
-
-    Long insertUser(User user)throws Exception;
-    User getUser(Long id)throws Exception;
-    User getUserBySlug(String slug)throws Exception;
-    void updateUser(User user)throws Exception;
+    /**
+    * 插入用户数据
+    * @param user
+    * @return
+    */
+    public Long insertUser(User user)throws Exception;
+    /**
+    * 通过id查询用户信息
+    * @param id
+    * @return
+    */
+    public User getUser(Long id)throws Exception;
+    /**
+    *
+    * @param
+    * @return
+    */
+    public User getUserBySlug(String slug)throws Exception;
+    /**
+    *
+    * @param
+    * @return
+    */
+    public void updateUser(User user)throws Exception;
 
 
 

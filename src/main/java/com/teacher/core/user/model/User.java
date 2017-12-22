@@ -10,9 +10,11 @@ import java.sql.Timestamp;
  * @Modified By:
  */
 @Entity
-@Table(name = "my_user")
+@Table(name = "user")
 public class User {
     private Long id;
+    @Column(name = "slug")
+    private String slug;
     @Column(name = "username")
     private String username;//用户名
     @Column(name = "password")
