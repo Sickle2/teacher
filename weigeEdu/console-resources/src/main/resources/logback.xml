@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+	<!-- [公共Appender] 控制台STDOUT -->
+	<appender name="STDOUT-APPENDER" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder charset="UTF-8">
+			<!--%d日期格式；%p输出日志的优先级；%c所属类的全名；%l输出日志发生的位置，线程，代码行数；%m程序输出的信息；%n换行 -->
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p [%t] %c:%L - %m%n</pattern>
+		</encoder>
+	</appender>
+	
+		<!-- [摘要日志Appender] -->
+	<appender name="DEFAULT-DIG"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<Encoding>UTF-8</Encoding>
+		<File>${loggingRoot}/common-digest.log</File>
+		<encoder>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p [%t] %-17c{2}:%L - %m%n
+			</pattern>
+		</encoder>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${loggingRoot}/common-digest.%d{yyyy-MM-dd}.log
+			</fileNamePattern>
+			<MaxHistory>30</MaxHistory>
+		</rollingPolicy>
+		<!--日志文件最大的大小 -->
+		<triggeringPolicy
+			class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+			<MaxFileSize>512MB</MaxFileSize>
+		</triggeringPolicy>
+	</appender>
+	
+	<!-- [公共Appender] 性能统计 -->
+	<appender name="PERF-APPENDER"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<Encoding>UTF-8</Encoding>
+		<File>${loggingRoot}/common-perf.log</File>
+		<encoder>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p [%t] %-17c{2}:%L - %m%n
+			</pattern>
+		</encoder>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${loggingRoot}/common-perf.%d{yyyy-MM-dd}.log
+			</fileNamePattern>
+			<MaxHistory>30</MaxHistory>
+		</rollingPolicy>
+		<!--日志文件最大的大小 -->
+		<triggeringPolicy
+			class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+			<MaxFileSize>512MB</MaxFileSize>
+		</triggeringPolicy>
+	</appender>
+	
+	<!-- [公共Appender] 默认 -->
+	<appender name="DEFAULT-APPENDER"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<Encoding>UTF-8</Encoding>
+		<File>${loggingRoot}/common-default.log</File>
+		<encoder>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p [%t] %-17c{2}:%L - %m%n
+			</pattern>
+		</encoder>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${loggingRoot}/common-default.%d{yyyy-MM-dd}.log
+			</fileNamePattern>
+			<MaxHistory>30</MaxHistory>
+		</rollingPolicy>
+		<!--日志文件最大的大小 -->
+		<triggeringPolicy
+			class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+			<MaxFileSize>512MB</MaxFileSize>
+		</triggeringPolicy>
+	</appender>
+
+	<!-- [公共Appender] 错误信息统计 -->
+	<appender name="ERROR-APPENDER"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<Encoding>UTF-8</Encoding>
+		<File>${loggingRoot}/common-error.log</File>
+		<encoder>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p [%t] %-17c{2}:%L - %m%n
+			</pattern>
+		</encoder>
+		<!-- 只打印错误日志 -->
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>ERROR</level>
+		</filter>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>ERROR</level>
+		</filter>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${loggingRoot}/common-error.%d{yyyy-MM-dd}.log
+			</fileNamePattern>
+			<MaxHistory>30</MaxHistory>
+		</rollingPolicy>
+		<!--日志文件最大的大小 -->
+		<triggeringPolicy
+			class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+			<MaxFileSize>512MB</MaxFileSize>
+		</triggeringPolicy>
+	</appender>
+
+	<!-- [公共Appender] 错误信息统计 -->
+
+
+	<!-- [platform Appender]  -->
+	<appender name="CONSOLE-SERVICE"
+			  class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${loggingRoot}/console-service.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- %i产生1.log;2.log -->
+			<fileNamePattern>${loggingRoot}/console-service.%d{yyy-MM-dd}.%i.log
+			</fileNamePattern>
+			<maxHistory>3</maxHistory>
+			<timeBasedFileNamingAndTriggeringPolicy
+					class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<!-- or whenever the file size reaches 1024MB -->
+				<maxFileSize>1024MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p [%t]  %c:%L - %m%n</pattern>
+		</encoder>
+	</appender>
+	<appender name="CONSOLE-DOMAIN"
+			  class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${loggingRoot}/console-domain.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- %i产生1.log;2.log -->
+			<fileNamePattern>${loggingRoot}/console-domain.%d{yyy-MM-dd}.%i.log
+			</fileNamePattern>
+			<maxHistory>3</maxHistory>
+			<timeBasedFileNamingAndTriggeringPolicy
+					class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<!-- or whenever the file size reaches 1024MB -->
+				<maxFileSize>1024MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p [%t]  %c:%L - %m%n</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="CONSOLE-DAO"
+			  class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${loggingRoot}/console-dao.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- %i产生1.log;2.log -->
+			<fileNamePattern>${loggingRoot}/console-dao.%d{yyy-MM-dd}.%i.log
+			</fileNamePattern>
+			<maxHistory>3</maxHistory>
+			<timeBasedFileNamingAndTriggeringPolicy
+					class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<!-- or whenever the file size reaches 1024MB -->
+				<maxFileSize>1024MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p [%t]  %c:%L - %m%n</pattern>
+		</encoder>
+	</appender>
+
+	<!-- [公共Logger] 控制台STDOUT - STDOUT -->
+	<logger name="STDOUT" additivity="true" level="${loggingLevel}">
+		<appender-ref ref="STDOUT-APPENDER" />
+	</logger>
+	
+	<!-- [公共Logger] 性能  -->
+	<logger name="com.weige.edu.framework.core.diagnostic.PerformanceMonitorInterceptor"
+			additivity="false" level="${loggingLevel}">
+		<appender-ref ref="PERF-APPENDER" />
+	</logger>
+
+	<!-- [公共Logger] api调用堆栈  -->
+	<logger name="com.weige.edu.framework.core.diagnostic.PerformanceInstrumentInterceptor"
+			additivity="false" level="${loggingLevel}">
+		<appender-ref ref="PERF-APPENDER" />
+	</logger>
+
+	<!-- [摘要日志] -->
+	<logger name="DEFAULT.DIG" additivity="false" level="INFO">
+		<appender-ref ref="DEFAULT-DIG" />
+	</logger>
+	
+	<logger name="org.apache.zookeeper.ClientCnxn" level="${loggingLevel}" />
+
+	<!-- [框架Logger] 数据 DAOL -->
+	
+	<!--  
+	<logger name="com.weige.edu.jrgc.mall.console.dao" additivity="false"  level="${loggingLevel}">
+		<appender-ref ref="CONSOLE-DAO"/>
+		<appender-ref ref="ERROR-APPENDER"/>
+	</logger>
+
+	<logger name="com.weige.edu.jrgc.mall.console.domain" additivity="false"  level="${loggingLevel}">
+		<appender-ref ref="CONSOLE-DOMAIN"/>
+		<appender-ref ref="ERROR-APPENDER"/>
+	</logger>
+
+
+	<logger name="com.weige.edu.jrgc.mall.console.service" additivity="false"  level="${loggingLevel}">
+		<appender-ref ref="CONSOLE-SERVICE"/>
+		<appender-ref ref="ERROR-APPENDER"/>
+	</logger>
+	-->
+
+
+	<root level="${loggingLevel}">
+	    <appender-ref ref="STDOUT-APPENDER" />
+		<appender-ref ref="DEFAULT-APPENDER" />
+	</root>
+
+</configuration>

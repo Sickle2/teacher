@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="promotionDO" >
+	<!-- Result Map-->
+	<resultMap id="BaseResultMap" type="com.ucf.jrgc.mall.console.data.PromotionDO" >
+		<result column="id" property="id"/>
+		<result column="uuid" property="uuid"/>
+		<result column="create_time" property="createTime"/>
+		<result column="update_time" property="updateTime"/>
+		<result column="discount" property="discount"/>
+		<result column="reduce" property="reduce"/>
+	</resultMap>
+
+	<!-- MALL_PROMOTION table all fields -->
+	<sql id="baseColumnList" >
+		id,uuid,create_time,update_time,discount,reduce
+	</sql>
+
+	<!-- 查询条件 -->
+	<sql id="exampleWhereClause">
+		where 1=1
+		<trim  suffixOverrides="," >
+			<if test="id != null" >
+				and id =  #{id}
+			</if>
+			<if test="uuid != null and uuid != ''" >
+				and uuid =  #{uuid}
+			</if>
+			<if test="createTime != null" >
+				and create_time =  #{createTime}
+			</if>
+			<if test="updateTime != null" >
+				and update_time =  #{updateTime}
+			</if>
+			<if test="discount != null" >
+				and discount =  #{discount}
+			</if>
+			<if test="reduce != null" >
+				and reduce =  #{reduce}
+			</if>
+		</trim>
+	</sql>
+
+	<!-- 无主键值时插入记录 -->
+	<insert id="insertPromotionDO" parameterType="Object" >
+		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="id">
+			SELECT SEQ_MALL_PROMOTION.NEXTVAL FROM DUAL
+		</selectKey>
+		insert into MALL_PROMOTION(id,uuid,create_time,update_time,discount,reduce)
+		values(#{id,jdbcType=INTEGER},#{uuid,jdbcType=VARCHAR},#{createTime,jdbcType=TIMESTAMP},#{updateTime,jdbcType=TIMESTAMP},#{discount,jdbcType=DOUBLE},#{reduce,jdbcType=DOUBLE})
+	</insert>
+
+
+	<!-- 查询MALL_PROMOTION列表 -->
+	<select id="queryByPromotionDO" resultMap="BaseResultMap"  parameterType="Object">
+		select
+		<include refid="baseColumnList"/>
+		from MALL_PROMOTION
+		<include refid="exampleWhereClause"/>
+	</select>
+
+	<!-- 查询MALL_PROMOTION列表 -->
+	<select id="queryPromotionDOByUUID" resultMap="BaseResultMap"  parameterType="java.lang.String">
+		select
+		<include refid="baseColumnList"/>
+		from MALL_PROMOTION where uuid=#{uuid}
+	</select>
+
+	<!-- 查询MALL_PROMOTION列表 -->
+	<select id="queryPromotionDOByUUIDs" resultMap="BaseResultMap" parameterType="java.util.List">
+		select
+		<include refid="baseColumnList"/>
+		from MALL_PROMOTION where uuid in
+		<foreach collection="list" item="uuid" index="index" open="(" close=")" separator=",">
+			#{uuid}
+		</foreach>
+	</select>
+
+	<!-- 修改记录，只修改只不为空的字段 -->
+	<update id="updateByPromotionDO" parameterType="Object" >
+		update MALL_PROMOTION set
+		<trim  suffixOverrides="," >
+			<if test="updateTime != null  ">
+				update_time=#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="discount != null  ">
+				discount=#{discount,jdbcType=DOUBLE},
+			</if>
+			<if test="reduce != null  ">
+				reduce=#{reduce,jdbcType=DOUBLE}
+			</if>
+		</trim> where uuid=#{uuid,jdbcType=VARCHAR}
+	</update>
+
+
+</mapper>

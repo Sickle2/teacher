@@ -1,0 +1,107 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:util="http://www.springframework.org/schema/util" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	   xsi:schemaLocation="
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-3.1.xsd
+        http://www.springframework.org/schema/beans 
+        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context-3.1.xsd
+        http://www.springframework.org/schema/mvc
+       http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd">
+	<context:property-placeholder location="classpath:/META-INF/app.properties" />
+
+	<context:component-scan base-package="com.liujinxin.controller" />
+
+	<mvc:annotation-driven conversion-service="conversionService"/>
+
+	<bean id="conversionService"
+		  class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+	</bean>
+
+	<!--  
+	<bean id="multipartResolver"
+		  class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="uploadTempDir" ><value>${mall.upload.temp.file}</value></property>
+		<property name="defaultEncoding" ><value>${mall.upload.file.defaultEncoding}</value></property>
+		  <property name="maxUploadSize" ><value>${mall.upload.file.maxUploadSize}</value></property>
+	</bean>
+	-->
+	<bean id="multipartResolver"
+		  class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="defaultEncoding">
+			<value>utf-8</value>
+		</property>
+		<property name="maxUploadSize">
+			<value>5400000</value>
+		</property>
+	</bean>
+
+	<context:annotation-config/>
+
+	<mvc:annotation-driven>
+		<mvc:message-converters register-defaults="true">
+			<bean class="org.springframework.http.converter.StringHttpMessageConverter">
+				<property name="supportedMediaTypes" >
+					<list>
+						<bean class="org.springframework.http.MediaType">
+							<constructor-arg value="text" />
+							<constructor-arg value="plain" />
+							<constructor-arg value="UTF-8" />
+						</bean>
+					</list>
+				</property>
+			</bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+	<bean id="velocityConfigurer" class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
+		<property name="resourceLoaderPath" value="pages" />
+		<property name="velocityProperties">
+			<props>
+				<prop key="input.encoding">UTF-8</prop>
+				<prop key="output.encoding">UTF-8</prop>
+			</props>
+		</property>
+	</bean>
+	<bean id="velocityViewResolver" class="org.springframework.web.servlet.view.velocity.VelocityViewResolver">
+		<property name="requestContextAttribute" value="rc"/>
+		<property name="suffix" value=".vm" />
+		<property name="contentType" value="text/html;charset=utf-8" />
+	</bean>
+
+	<!--过期拦截-->
+	<!--<sec:session-management invalid-session-url="/login" ></sec:session-management>-->
+	<!--登录拦截器-->
+	<!--  
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**"/>
+			<bean id="loginInterceptor" class="com.ucf.jrgc.mall.console.controllers.login.LoginInterceptor">
+			<property name="excludedUrls">
+				<list>
+					<value>/login</value>
+					<value>/login_master</value>
+					<value>jpg</value>
+				</list>
+			</property>
+			</bean>
+		</mvc:interceptor>
+	</mvc:interceptors>
+	-->
+	<!--
+	<mvc:interceptors>
+		<bean class="com.ucf.jrgc.mall.console.controllers.filter.CommonFilter"/>
+	</mvc:interceptors>
+	-->
+	
+	<!--&lt;!&ndash; 静态资源访问映射 &ndash;&gt;-->
+	<mvc:resources location="/bootstrap/" mapping="/bootstrap/**" />
+	<mvc:resources location="/dist/" mapping="/dist/**" />
+	<mvc:resources location="/images/" mapping="/images/**" />
+	<mvc:resources location="/plugins/" mapping="/plugins/**" />
+
+
+
+</beans>

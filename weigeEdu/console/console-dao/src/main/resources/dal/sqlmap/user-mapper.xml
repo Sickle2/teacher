@@ -1,0 +1,449 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liujinxin.dao.dao.UserDAO" > 
+<!-- Result Map-->
+<resultMap id="BaseResultMap" type="com.liujinxin.dao.data.UserDO" >
+	<result column="host" property="host"/>
+	<result column="user" property="user"/>
+	<result column="password" property="password"/>
+	<result column="select_priv" property="selectPriv"/>
+	<result column="insert_priv" property="insertPriv"/>
+	<result column="update_priv" property="updatePriv"/>
+	<result column="delete_priv" property="deletePriv"/>
+	<result column="create_priv" property="createPriv"/>
+	<result column="drop_priv" property="dropPriv"/>
+	<result column="reload_priv" property="reloadPriv"/>
+	<result column="shutdown_priv" property="shutdownPriv"/>
+	<result column="process_priv" property="processPriv"/>
+	<result column="file_priv" property="filePriv"/>
+	<result column="grant_priv" property="grantPriv"/>
+	<result column="references_priv" property="referencesPriv"/>
+	<result column="index_priv" property="indexPriv"/>
+	<result column="alter_priv" property="alterPriv"/>
+	<result column="show_db_priv" property="showDbPriv"/>
+	<result column="super_priv" property="superPriv"/>
+	<result column="create_tmp_table_priv" property="createTmpTablePriv"/>
+	<result column="lock_tables_priv" property="lockTablesPriv"/>
+	<result column="execute_priv" property="executePriv"/>
+	<result column="repl_slave_priv" property="replSlavePriv"/>
+	<result column="repl_client_priv" property="replClientPriv"/>
+	<result column="create_view_priv" property="createViewPriv"/>
+	<result column="show_view_priv" property="showViewPriv"/>
+	<result column="create_routine_priv" property="createRoutinePriv"/>
+	<result column="alter_routine_priv" property="alterRoutinePriv"/>
+	<result column="create_user_priv" property="createUserPriv"/>
+	<result column="event_priv" property="eventPriv"/>
+	<result column="trigger_priv" property="triggerPriv"/>
+	<result column="create_tablespace_priv" property="createTablespacePriv"/>
+	<result column="ssl_type" property="sslType"/>
+	<result column="ssl_cipher" property="sslCipher"/>
+	<result column="x509_issuer" property="x509Issuer"/>
+	<result column="x509_subject" property="x509Subject"/>
+	<result column="max_questions" property="maxQuestions"/>
+	<result column="max_updates" property="maxUpdates"/>
+	<result column="max_connections" property="maxConnections"/>
+	<result column="max_user_connections" property="maxUserConnections"/>
+	<result column="plugin" property="plugin"/>
+	<result column="authentication_string" property="authenticationString"/>
+	<result column="password_expired" property="passwordExpired"/>
+	<result column="id" property="id"/>
+	<result column="username" property="username"/>
+	<result column="password" property="password"/>
+	<result column="userphoto" property="userphoto"/>
+	<result column="usersex" property="usersex"/>
+	<result column="phone" property="phone"/>
+	<result column="status" property="status"/>
+	<result column="usersignatrue" property="usersignatrue"/>
+	<result column="idnum" property="idnum"/>
+	<result column="borndate" property="borndate"/>
+	<result column="hobby" property="hobby"/>
+	<result column="usermoney" property="usermoney"/>
+</resultMap>
+       
+<!-- user table all fields -->
+<sql id="baseColumnList" >
+	 host,user,password,select_priv,insert_priv,update_priv,delete_priv,create_priv,drop_priv,reload_priv,shutdown_priv,process_priv,file_priv,grant_priv,references_priv,index_priv,alter_priv,show_db_priv,super_priv,create_tmp_table_priv,lock_tables_priv,execute_priv,repl_slave_priv,repl_client_priv,create_view_priv,show_view_priv,create_routine_priv,alter_routine_priv,create_user_priv,event_priv,trigger_priv,create_tablespace_priv,ssl_type,ssl_cipher,x509_issuer,x509_subject,max_questions,max_updates,max_connections,max_user_connections,plugin,authentication_string,password_expired,id,username,password,userphoto,usersex,phone,status,usersignatrue,idnum,borndate,hobby,usermoney
+</sql>
+   
+   
+<!-- 查询条件 -->
+<sql id="exampleWhereClause">
+where 1=1
+<trim  suffixOverrides="," >
+	 	<if test="host != null and host != ''" >
+	    and host =  #{host}
+	</if>
+	 	<if test="user != null and user != ''" >
+	    and user =  #{user}
+	</if>
+	 	<if test="password != null and password != ''" >
+	    and password =  #{password}
+	</if>
+	<if test="selectPriv != null" >
+	    and select_priv =  #{selectPriv}
+	</if>
+	<if test="insertPriv != null" >
+	    and insert_priv =  #{insertPriv}
+	</if>
+	<if test="updatePriv != null" >
+	    and update_priv =  #{updatePriv}
+	</if>
+	<if test="deletePriv != null" >
+	    and delete_priv =  #{deletePriv}
+	</if>
+	<if test="createPriv != null" >
+	    and create_priv =  #{createPriv}
+	</if>
+	<if test="dropPriv != null" >
+	    and drop_priv =  #{dropPriv}
+	</if>
+	<if test="reloadPriv != null" >
+	    and reload_priv =  #{reloadPriv}
+	</if>
+	<if test="shutdownPriv != null" >
+	    and shutdown_priv =  #{shutdownPriv}
+	</if>
+	<if test="processPriv != null" >
+	    and process_priv =  #{processPriv}
+	</if>
+	<if test="filePriv != null" >
+	    and file_priv =  #{filePriv}
+	</if>
+	<if test="grantPriv != null" >
+	    and grant_priv =  #{grantPriv}
+	</if>
+	<if test="referencesPriv != null" >
+	    and references_priv =  #{referencesPriv}
+	</if>
+	<if test="indexPriv != null" >
+	    and index_priv =  #{indexPriv}
+	</if>
+	<if test="alterPriv != null" >
+	    and alter_priv =  #{alterPriv}
+	</if>
+	<if test="showDbPriv != null" >
+	    and show_db_priv =  #{showDbPriv}
+	</if>
+	<if test="superPriv != null" >
+	    and super_priv =  #{superPriv}
+	</if>
+	<if test="createTmpTablePriv != null" >
+	    and create_tmp_table_priv =  #{createTmpTablePriv}
+	</if>
+	<if test="lockTablesPriv != null" >
+	    and lock_tables_priv =  #{lockTablesPriv}
+	</if>
+	<if test="executePriv != null" >
+	    and execute_priv =  #{executePriv}
+	</if>
+	<if test="replSlavePriv != null" >
+	    and repl_slave_priv =  #{replSlavePriv}
+	</if>
+	<if test="replClientPriv != null" >
+	    and repl_client_priv =  #{replClientPriv}
+	</if>
+	<if test="createViewPriv != null" >
+	    and create_view_priv =  #{createViewPriv}
+	</if>
+	<if test="showViewPriv != null" >
+	    and show_view_priv =  #{showViewPriv}
+	</if>
+	<if test="createRoutinePriv != null" >
+	    and create_routine_priv =  #{createRoutinePriv}
+	</if>
+	<if test="alterRoutinePriv != null" >
+	    and alter_routine_priv =  #{alterRoutinePriv}
+	</if>
+	<if test="createUserPriv != null" >
+	    and create_user_priv =  #{createUserPriv}
+	</if>
+	<if test="eventPriv != null" >
+	    and event_priv =  #{eventPriv}
+	</if>
+	<if test="triggerPriv != null" >
+	    and trigger_priv =  #{triggerPriv}
+	</if>
+	<if test="createTablespacePriv != null" >
+	    and create_tablespace_priv =  #{createTablespacePriv}
+	</if>
+	<if test="sslType != null" >
+	    and ssl_type =  #{sslType}
+	</if>
+	<if test="sslCipher != null" >
+	    and ssl_cipher =  #{sslCipher}
+	</if>
+	<if test="x509Issuer != null" >
+	    and x509_issuer =  #{x509Issuer}
+	</if>
+	<if test="x509Subject != null" >
+	    and x509_subject =  #{x509Subject}
+	</if>
+	<if test="maxQuestions != null" >
+	    and max_questions =  #{maxQuestions}
+	</if>
+	<if test="maxUpdates != null" >
+	    and max_updates =  #{maxUpdates}
+	</if>
+	<if test="maxConnections != null" >
+	    and max_connections =  #{maxConnections}
+	</if>
+	<if test="maxUserConnections != null" >
+	    and max_user_connections =  #{maxUserConnections}
+	</if>
+	 	<if test="plugin != null and plugin != ''" >
+	    and plugin =  #{plugin}
+	</if>
+	<if test="authenticationString != null" >
+	    and authentication_string =  #{authenticationString}
+	</if>
+	<if test="passwordExpired != null" >
+	    and password_expired =  #{passwordExpired}
+	</if>
+	<if test="id != null" >
+	    and id =  #{id}
+	</if>
+	 	<if test="username != null and username != ''" >
+	    and username =  #{username}
+	</if>
+	 	<if test="password != null and password != ''" >
+	    and password =  #{password}
+	</if>
+	 	<if test="userphoto != null and userphoto != ''" >
+	    and userphoto =  #{userphoto}
+	</if>
+	 	<if test="usersex != null and usersex != ''" >
+	    and usersex =  #{usersex}
+	</if>
+	 	<if test="phone != null and phone != ''" >
+	    and phone =  #{phone}
+	</if>
+	 	<if test="status != null and status != ''" >
+	    and status =  #{status}
+	</if>
+	 	<if test="usersignatrue != null and usersignatrue != ''" >
+	    and usersignatrue =  #{usersignatrue}
+	</if>
+	 	<if test="idnum != null and idnum != ''" >
+	    and idnum =  #{idnum}
+	</if>
+	<if test="borndate != null" >
+	    and borndate =  #{borndate}
+	</if>
+	 	<if test="hobby != null and hobby != ''" >
+	    and hobby =  #{hobby}
+	</if>
+	<if test="usermoney != null" >
+	    and usermoney =  #{usermoney}
+	</if>
+</trim>
+</sql>
+   
+
+<!-- 无主键值时插入记录 -->
+<insert id="add" parameterType="Object" >
+  insert into user(host,user,password,select_priv,insert_priv,update_priv,delete_priv,create_priv,drop_priv,reload_priv,shutdown_priv,process_priv,file_priv,grant_priv,references_priv,index_priv,alter_priv,show_db_priv,super_priv,create_tmp_table_priv,lock_tables_priv,execute_priv,repl_slave_priv,repl_client_priv,create_view_priv,show_view_priv,create_routine_priv,alter_routine_priv,create_user_priv,event_priv,trigger_priv,create_tablespace_priv,ssl_type,ssl_cipher,x509_issuer,x509_subject,max_questions,max_updates,max_connections,max_user_connections,plugin,authentication_string,password_expired,id,username,password,userphoto,usersex,phone,status,usersignatrue,idnum,borndate,hobby,usermoney)
+ values(#{host,jdbcType=VARCHAR},#{user,jdbcType=VARCHAR},#{password,jdbcType=VARCHAR},#{selectPriv,jdbcType=null},#{insertPriv,jdbcType=null},#{updatePriv,jdbcType=null},#{deletePriv,jdbcType=null},#{createPriv,jdbcType=null},#{dropPriv,jdbcType=null},#{reloadPriv,jdbcType=null},#{shutdownPriv,jdbcType=null},#{processPriv,jdbcType=null},#{filePriv,jdbcType=null},#{grantPriv,jdbcType=null},#{referencesPriv,jdbcType=null},#{indexPriv,jdbcType=null},#{alterPriv,jdbcType=null},#{showDbPriv,jdbcType=null},#{superPriv,jdbcType=null},#{createTmpTablePriv,jdbcType=null},#{lockTablesPriv,jdbcType=null},#{executePriv,jdbcType=null},#{replSlavePriv,jdbcType=null},#{replClientPriv,jdbcType=null},#{createViewPriv,jdbcType=null},#{showViewPriv,jdbcType=null},#{createRoutinePriv,jdbcType=null},#{alterRoutinePriv,jdbcType=null},#{createUserPriv,jdbcType=null},#{eventPriv,jdbcType=null},#{triggerPriv,jdbcType=null},#{createTablespacePriv,jdbcType=null},#{sslType,jdbcType=null},#{sslCipher,jdbcType=null},#{x509Issuer,jdbcType=null},#{x509Subject,jdbcType=null},#{maxQuestions,jdbcType=INTEGER},#{maxUpdates,jdbcType=INTEGER},#{maxConnections,jdbcType=INTEGER},#{maxUserConnections,jdbcType=INTEGER},#{plugin,jdbcType=VARCHAR},#{authenticationString,jdbcType=null},#{passwordExpired,jdbcType=null},#{id,jdbcType=INTEGER},#{username,jdbcType=VARCHAR},#{password,jdbcType=VARCHAR},#{userphoto,jdbcType=VARCHAR},#{usersex,jdbcType=VARCHAR},#{phone,jdbcType=VARCHAR},#{status,jdbcType=VARCHAR},#{usersignatrue,jdbcType=VARCHAR},#{idnum,jdbcType=VARCHAR},#{borndate,jdbcType=TIMESTAMP},#{hobby,jdbcType=VARCHAR},#{usermoney,jdbcType=INTEGER})
+</insert>
+
+<!-- 根据id，修改记录-->  
+ <update id="update" parameterType="Object" >
+  update user set user=#{user,jdbcType=VARCHAR},password=#{password,jdbcType=VARCHAR},select_priv=#{selectPriv,jdbcType=null},insert_priv=#{insertPriv,jdbcType=null},update_priv=#{updatePriv,jdbcType=null},delete_priv=#{deletePriv,jdbcType=null},create_priv=#{createPriv,jdbcType=null},drop_priv=#{dropPriv,jdbcType=null},reload_priv=#{reloadPriv,jdbcType=null},shutdown_priv=#{shutdownPriv,jdbcType=null},process_priv=#{processPriv,jdbcType=null},file_priv=#{filePriv,jdbcType=null},grant_priv=#{grantPriv,jdbcType=null},references_priv=#{referencesPriv,jdbcType=null},index_priv=#{indexPriv,jdbcType=null},alter_priv=#{alterPriv,jdbcType=null},show_db_priv=#{showDbPriv,jdbcType=null},super_priv=#{superPriv,jdbcType=null},create_tmp_table_priv=#{createTmpTablePriv,jdbcType=null},lock_tables_priv=#{lockTablesPriv,jdbcType=null},execute_priv=#{executePriv,jdbcType=null},repl_slave_priv=#{replSlavePriv,jdbcType=null},repl_client_priv=#{replClientPriv,jdbcType=null},create_view_priv=#{createViewPriv,jdbcType=null},show_view_priv=#{showViewPriv,jdbcType=null},create_routine_priv=#{createRoutinePriv,jdbcType=null},alter_routine_priv=#{alterRoutinePriv,jdbcType=null},create_user_priv=#{createUserPriv,jdbcType=null},event_priv=#{eventPriv,jdbcType=null},trigger_priv=#{triggerPriv,jdbcType=null},create_tablespace_priv=#{createTablespacePriv,jdbcType=null},ssl_type=#{sslType,jdbcType=null},ssl_cipher=#{sslCipher,jdbcType=null},x509_issuer=#{x509Issuer,jdbcType=null},x509_subject=#{x509Subject,jdbcType=null},max_questions=#{maxQuestions,jdbcType=INTEGER},max_updates=#{maxUpdates,jdbcType=INTEGER},max_connections=#{maxConnections,jdbcType=INTEGER},max_user_connections=#{maxUserConnections,jdbcType=INTEGER},plugin=#{plugin,jdbcType=VARCHAR},authentication_string=#{authenticationString,jdbcType=null},password_expired=#{passwordExpired,jdbcType=null},id=#{id,jdbcType=INTEGER},username=#{username,jdbcType=VARCHAR},password=#{password,jdbcType=VARCHAR},userphoto=#{userphoto,jdbcType=VARCHAR},usersex=#{usersex,jdbcType=VARCHAR},phone=#{phone,jdbcType=VARCHAR},status=#{status,jdbcType=VARCHAR},usersignatrue=#{usersignatrue,jdbcType=VARCHAR},idnum=#{idnum,jdbcType=VARCHAR},borndate=#{borndate,jdbcType=TIMESTAMP},hobby=#{hobby,jdbcType=VARCHAR},usermoney=#{usermoney,jdbcType=INTEGER} where host=#{host,jdbcType=VARCHAR}
+ </update>
+ 
+ <!-- 修改记录，只修改只不为空的字段 -->
+<update id="updateBySelective" parameterType="Object" >
+	update user set 
+	<trim  suffixOverrides="," >
+	<if test="user != null  and user != '' ">
+		user=#{user,jdbcType=VARCHAR},
+	</if>
+	<if test="password != null  and password != '' ">
+		password=#{password,jdbcType=VARCHAR},
+	</if>
+	<if test="selectPriv != null  ">
+		select_priv=#{selectPriv,jdbcType=null},
+	</if>
+	<if test="insertPriv != null  ">
+		insert_priv=#{insertPriv,jdbcType=null},
+	</if>
+	<if test="updatePriv != null  ">
+		update_priv=#{updatePriv,jdbcType=null},
+	</if>
+	<if test="deletePriv != null  ">
+		delete_priv=#{deletePriv,jdbcType=null},
+	</if>
+	<if test="createPriv != null  ">
+		create_priv=#{createPriv,jdbcType=null},
+	</if>
+	<if test="dropPriv != null  ">
+		drop_priv=#{dropPriv,jdbcType=null},
+	</if>
+	<if test="reloadPriv != null  ">
+		reload_priv=#{reloadPriv,jdbcType=null},
+	</if>
+	<if test="shutdownPriv != null  ">
+		shutdown_priv=#{shutdownPriv,jdbcType=null},
+	</if>
+	<if test="processPriv != null  ">
+		process_priv=#{processPriv,jdbcType=null},
+	</if>
+	<if test="filePriv != null  ">
+		file_priv=#{filePriv,jdbcType=null},
+	</if>
+	<if test="grantPriv != null  ">
+		grant_priv=#{grantPriv,jdbcType=null},
+	</if>
+	<if test="referencesPriv != null  ">
+		references_priv=#{referencesPriv,jdbcType=null},
+	</if>
+	<if test="indexPriv != null  ">
+		index_priv=#{indexPriv,jdbcType=null},
+	</if>
+	<if test="alterPriv != null  ">
+		alter_priv=#{alterPriv,jdbcType=null},
+	</if>
+	<if test="showDbPriv != null  ">
+		show_db_priv=#{showDbPriv,jdbcType=null},
+	</if>
+	<if test="superPriv != null  ">
+		super_priv=#{superPriv,jdbcType=null},
+	</if>
+	<if test="createTmpTablePriv != null  ">
+		create_tmp_table_priv=#{createTmpTablePriv,jdbcType=null},
+	</if>
+	<if test="lockTablesPriv != null  ">
+		lock_tables_priv=#{lockTablesPriv,jdbcType=null},
+	</if>
+	<if test="executePriv != null  ">
+		execute_priv=#{executePriv,jdbcType=null},
+	</if>
+	<if test="replSlavePriv != null  ">
+		repl_slave_priv=#{replSlavePriv,jdbcType=null},
+	</if>
+	<if test="replClientPriv != null  ">
+		repl_client_priv=#{replClientPriv,jdbcType=null},
+	</if>
+	<if test="createViewPriv != null  ">
+		create_view_priv=#{createViewPriv,jdbcType=null},
+	</if>
+	<if test="showViewPriv != null  ">
+		show_view_priv=#{showViewPriv,jdbcType=null},
+	</if>
+	<if test="createRoutinePriv != null  ">
+		create_routine_priv=#{createRoutinePriv,jdbcType=null},
+	</if>
+	<if test="alterRoutinePriv != null  ">
+		alter_routine_priv=#{alterRoutinePriv,jdbcType=null},
+	</if>
+	<if test="createUserPriv != null  ">
+		create_user_priv=#{createUserPriv,jdbcType=null},
+	</if>
+	<if test="eventPriv != null  ">
+		event_priv=#{eventPriv,jdbcType=null},
+	</if>
+	<if test="triggerPriv != null  ">
+		trigger_priv=#{triggerPriv,jdbcType=null},
+	</if>
+	<if test="createTablespacePriv != null  ">
+		create_tablespace_priv=#{createTablespacePriv,jdbcType=null},
+	</if>
+	<if test="sslType != null  ">
+		ssl_type=#{sslType,jdbcType=null},
+	</if>
+	<if test="sslCipher != null  ">
+		ssl_cipher=#{sslCipher,jdbcType=null},
+	</if>
+	<if test="x509Issuer != null  ">
+		x509_issuer=#{x509Issuer,jdbcType=null},
+	</if>
+	<if test="x509Subject != null  ">
+		x509_subject=#{x509Subject,jdbcType=null},
+	</if>
+	<if test="maxQuestions != null  ">
+		max_questions=#{maxQuestions,jdbcType=INTEGER},
+	</if>
+	<if test="maxUpdates != null  ">
+		max_updates=#{maxUpdates,jdbcType=INTEGER},
+	</if>
+	<if test="maxConnections != null  ">
+		max_connections=#{maxConnections,jdbcType=INTEGER},
+	</if>
+	<if test="maxUserConnections != null  ">
+		max_user_connections=#{maxUserConnections,jdbcType=INTEGER},
+	</if>
+	<if test="plugin != null  and plugin != '' ">
+		plugin=#{plugin,jdbcType=VARCHAR},
+	</if>
+	<if test="authenticationString != null  ">
+		authentication_string=#{authenticationString,jdbcType=null},
+	</if>
+	<if test="passwordExpired != null  ">
+		password_expired=#{passwordExpired,jdbcType=null},
+	</if>
+	<if test="id != null  ">
+		id=#{id,jdbcType=INTEGER},
+	</if>
+	<if test="username != null  and username != '' ">
+		username=#{username,jdbcType=VARCHAR},
+	</if>
+	<if test="password != null  and password != '' ">
+		password=#{password,jdbcType=VARCHAR},
+	</if>
+	<if test="userphoto != null  and userphoto != '' ">
+		userphoto=#{userphoto,jdbcType=VARCHAR},
+	</if>
+	<if test="usersex != null  and usersex != '' ">
+		usersex=#{usersex,jdbcType=VARCHAR},
+	</if>
+	<if test="phone != null  and phone != '' ">
+		phone=#{phone,jdbcType=VARCHAR},
+	</if>
+	<if test="status != null  and status != '' ">
+		status=#{status,jdbcType=VARCHAR},
+	</if>
+	<if test="usersignatrue != null  and usersignatrue != '' ">
+		usersignatrue=#{usersignatrue,jdbcType=VARCHAR},
+	</if>
+	<if test="idnum != null  and idnum != '' ">
+		idnum=#{idnum,jdbcType=VARCHAR},
+	</if>
+	<if test="borndate != null  ">
+		borndate=#{borndate,jdbcType=TIMESTAMP},
+	</if>
+	<if test="hobby != null  and hobby != '' ">
+		hobby=#{hobby,jdbcType=VARCHAR},
+	</if>
+	<if test="usermoney != null  ">
+		usermoney=#{usermoney,jdbcType=INTEGER},
+	</if>
+	</trim> where host=#{host,jdbcType=VARCHAR}
+</update>
+
+<!-- 删除记录 -->
+<delete id="delete" parameterType="Object">
+	delete 	 from user where host in  <foreach item="ITEM" collection="array" open="(" separator="," close=")">  #{ITEM} </foreach>
+</delete>
+ 
+<!-- 根据id查询 Users and global privileges -->
+<select id="queryById"  resultMap="BaseResultMap" parameterType="Object">
+	   	select <include refid="baseColumnList" /> 
+	 from user where host = #{host,jdbcType=VARCHAR}
+  	</select>
+
+<!-- Users and global privileges 列表总数-->
+<select id="queryByCount" resultType="java.lang.Integer"  parameterType="Object">
+	select count(1) from user 
+	<include refid="exampleWhereClause"/>
+</select>
+  	
+<!-- 查询Users and global privileges列表 -->
+<select id="queryByList" resultMap="BaseResultMap"  parameterType="Object">			
+	select 
+	<include refid="baseColumnList"/>
+	from user 
+	<include refid="exampleWhereClause"/>
+</select>
+  	
+</mapper>   

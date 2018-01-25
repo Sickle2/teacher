@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liujinxin.dao.dao.PinglunDAO" > 
+<!-- Result Map-->
+<resultMap id="BaseResultMap" type="com.liujinxin.dao.data.PinglunDO" >
+	<result column="id" property="id"/>
+	<result column="user_id" property="userId"/>
+	<result column="text" property="text"/>
+	<result column="creat_time" property="creatTime"/>
+	<result column="video_id" property="videoId"/>
+	<result column="is_top" property="isTop"/>
+	<result column="status" property="status"/>
+</resultMap>
+       
+<!-- pinglun table all fields -->
+<sql id="baseColumnList" >
+	 id,user_id,text,creat_time,video_id,is_top,status
+</sql>
+   
+   
+<!-- 查询条件 -->
+<sql id="exampleWhereClause">
+where 1=1
+<trim  suffixOverrides="," >
+	<if test="id != null" >
+	    and id =  #{id}
+	</if>
+	<if test="userId != null" >
+	    and user_id =  #{userId}
+	</if>
+	 	<if test="text != null and text != ''" >
+	    and text =  #{text}
+	</if>
+	<if test="creatTime != null" >
+	    and creat_time =  #{creatTime}
+	</if>
+	<if test="videoId != null" >
+	    and video_id =  #{videoId}
+	</if>
+	 	<if test="isTop != null and isTop != ''" >
+	    and is_top =  #{isTop}
+	</if>
+	 	<if test="status != null and status != ''" >
+	    and status =  #{status}
+	</if>
+</trim>
+</sql>
+   
+
+<!-- 无主键值时插入记录 -->
+<insert id="add" parameterType="Object" >
+  insert into pinglun(id,user_id,text,creat_time,video_id,is_top,status)
+ values(#{id,jdbcType=INTEGER},#{userId,jdbcType=INTEGER},#{text,jdbcType=VARCHAR},#{creatTime,jdbcType=TIMESTAMP},#{videoId,jdbcType=INTEGER},#{isTop,jdbcType=VARCHAR},#{status,jdbcType=VARCHAR})
+</insert>
+
+<!-- 根据id，修改记录-->  
+ <update id="update" parameterType="Object" >
+  update pinglun set user_id=#{userId,jdbcType=INTEGER},text=#{text,jdbcType=VARCHAR},creat_time=#{creatTime,jdbcType=TIMESTAMP},video_id=#{videoId,jdbcType=INTEGER},is_top=#{isTop,jdbcType=VARCHAR},status=#{status,jdbcType=VARCHAR} where id=#{id,jdbcType=INTEGER}
+ </update>
+ 
+ <!-- 修改记录，只修改只不为空的字段 -->
+<update id="updateBySelective" parameterType="Object" >
+	update pinglun set 
+	<trim  suffixOverrides="," >
+	<if test="userId != null  ">
+		user_id=#{userId,jdbcType=INTEGER},
+	</if>
+	<if test="text != null  and text != '' ">
+		text=#{text,jdbcType=VARCHAR},
+	</if>
+	<if test="creatTime != null  ">
+		creat_time=#{creatTime,jdbcType=TIMESTAMP},
+	</if>
+	<if test="videoId != null  ">
+		video_id=#{videoId,jdbcType=INTEGER},
+	</if>
+	<if test="isTop != null  and isTop != '' ">
+		is_top=#{isTop,jdbcType=VARCHAR},
+	</if>
+	<if test="status != null  and status != '' ">
+		status=#{status,jdbcType=VARCHAR},
+	</if>
+	</trim> where id=#{id,jdbcType=INTEGER}
+</update>
+
+<!-- 删除记录 -->
+<delete id="delete" parameterType="Object">
+	delete 	 from pinglun where id in  <foreach item="ITEM" collection="array" open="(" separator="," close=")">  #{ITEM} </foreach>
+</delete>
+ 
+<!-- 根据id查询 pinglun -->
+<select id="queryById"  resultMap="BaseResultMap" parameterType="Object">
+	   	select <include refid="baseColumnList" /> 
+	 from pinglun where id = #{id,jdbcType=INTEGER}
+  	</select>
+
+<!-- pinglun 列表总数-->
+<select id="queryByCount" resultType="java.lang.Integer"  parameterType="Object">
+	select count(1) from pinglun 
+	<include refid="exampleWhereClause"/>
+</select>
+  	
+<!-- 查询pinglun列表 -->
+<select id="queryByList" resultMap="BaseResultMap"  parameterType="Object">			
+	select 
+	<include refid="baseColumnList"/>
+	from pinglun 
+	<include refid="exampleWhereClause"/>
+</select>
+  	
+</mapper>   

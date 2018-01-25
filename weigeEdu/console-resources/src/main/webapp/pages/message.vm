@@ -1,0 +1,81 @@
+<!-- error信息 -->
+<div class="alert alert-success hidden" role="alert" id="messager-success">
+    <strong><span id="message-span-success">Success!操作成功</span></strong> .
+</div>
+<!-- error信息 -->
+<div class="alert alert-danger hidden" role="alert" id="messager-danger">
+    <strong><span id="message-span-danger">Error!系统出错，请联系管理员</span></strong> .
+</div>
+<!-- loading 信息 -->
+<div class="modal" tabindex="-1" role="dialog" id="refreshDialog">
+    <div class="overlay">
+        <i class="fa fa-refresh fa-spin"></i>
+    </div>
+</div>
+<script>
+    var $loading = $('#refreshDialog');
+    var $messagerDanger = $('#messager-danger');
+    var $messageContentDanger = $('#message-span-danger');
+    var $messagerSuccess = $('#messager-success');
+    var $messageContentSuccess = $('#message-span-success');
+
+    <!-- loading 信息初始化 -->
+    $('#refreshDialog').on('shown.bs.modal', function () {
+    //$('#myInput').focus()
+    })
+
+    /**
+     * 信息 效果全部关闭
+     */
+    function messageCloseAll(){
+        messageCloseSuccess();
+        messageCloseDanger();
+    }
+
+    /**
+     * 成功信息 效果弹出
+     */
+    function messageShowSuccess(message){
+        messageCloseAll();
+        $messagerSuccess.attr("class","alert alert-success");
+        $messageContentSuccess.html(message);
+        $messagerSuccess.show(300).delay(3000).fadeOut("slow"); 
+    }
+    /**
+     * 成功信息 效果关闭
+     */
+    function messageCloseSuccess(){
+            $messagerSuccess.attr("class","alert alert-success hidden");
+            $messageContentSuccess.html('Success!操作成功');
+    }
+    /**
+     * 错误信息 效果弹出
+     */
+    function messageShowDanger(message){
+        messageCloseAll();
+        $messagerDanger.attr("class","alert alert-danger");
+        $messageContentDanger.html(message);
+        $messagerDanger.show(300).delay(3000).fadeOut("slow"); 
+    }
+
+    /**
+     * 错误信息 效果关闭
+     */
+    function messageCloseDanger(){
+            $messagerDanger.attr("class","alert alert-danger hidden");
+            $messageContentDanger.html('Error!系统出错，请联系管理员');
+    }
+
+    /**
+     * loading 效果弹出
+     */
+    function pageLoadingShow(){
+            $loading.show();
+    }
+    /**
+     * loading 效果移除
+     */
+    function pageLoadingRemove(){
+            $loading.hide();
+    }
+</script>

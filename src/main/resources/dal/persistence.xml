@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans 
+	xmlns="http://www.springframework.org/schema/beans"  
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd 
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd"
+	default-autowire="byName" default-lazy-init="false">
+	
+	<context:property-placeholder location="classpath:/META-INF/app.properties" />
+	
+	<bean id="mallDS" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+		<property name="driverClass"><value>oracle.jdbc.OracleDriver</value></property>
+		<property name="jdbcUrl"><value>${jrgc.mall.jdbc.url}</value></property>
+		<property name="user"><value>${jrgc.mall.jdbc.username}</value></property>
+		<property name="password"><value>${jrgc.mall.jdbc.password}</value></property>
+		<property name="initialPoolSize"><value>3</value></property>
+		<property name="minPoolSize"><value>3</value></property>
+		<property name="maxPoolSize"><value>15</value></property>
+		<property name="maxIdleTime"><value>60000</value></property>
+		<!-- 当连接池中的连接用完时，C3P0一次性创建新连接的数目-->
+		<property name="acquireIncrement"><value>3</value></property>
+		<!-- 在从数据库获取新连接失败后重复尝试获取的次数-->
+		<property name="acquireRetryAttempts"><value>20</value></property>
+		
+		<!-- JDBC的标准参数，用以控制数据源内加载的PreparedStatements数量。但由于预缓存的statements属于单个connection而不是整个连接池。所以设置这个参数需要考虑到多方面的因素。
+                             如果maxStatements与maxStatementsPerConnection均为0，则缓存被关闭。Default: 0 -->
+		<property name="maxStatements"><value>0</value></property>
+		<property name="maxStatementsPerConnection"><value>0</value></property>
+		
+		<!--连接关闭时默认将所有未提交的操作回滚 -->
+		<property name="autoCommitOnClose"><value>false</value></property>
+		<!-- c3p0是异步操作的，缓慢的JDBC操作通过帮助进程完成。扩展这些操作可以有效的提升性能通过多线程实现多个操作同时被执行。Default: 3 -->
+		<property name="numHelperThreads"><value>5</value></property>
+		
+		<!--获取连接失败将会引起所有等待连接池来获取连接的线程抛出异常。但是数据源仍有效保留，并在下次调用getConnection()的时候继续尝试获取连接。如果设为true，那么在尝试
+                             获取连接失败后该数据源将申明已断开并永久关闭。Default: false-->
+		<property name="breakAfterAcquireFailure"><value>false</value></property>
+	</bean>
+	
+  	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource"><ref local="mallDS" /></property>
+	</bean>
+
+	<bean id="transactionTemplate" class="org.springframework.transaction.support.TransactionTemplate">
+		<property name="transactionManager">
+			<ref local="transactionManager" />
+		</property>
+	</bean>
+	
+   <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="mallDS" />
+		<property name="configLocation" value="classpath:dal/mybatis-config.xml" />
+   </bean>
+
+   <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">   
+        <constructor-arg index="0" ref="sqlSessionFactory" />   
+   </bean>
+
+	<bean id="activityDAO" class="com.ucf.jrgc.mall.dao.impl.ActivityDAOImpl">
+		<property name="sqlSessionTemplate" ref="sqlSession" />
+	</bean>
+	<bean id="productDAO" class="com.ucf.jrgc.mall.dao.impl.ProductDAOImpl">
+		<property name="sqlSessionTemplate" ref="sqlSession" />
+	</bean>
+	<bean id="memberDAO" class="com.ucf.jrgc.mall.dao.impl.MemberDAOImpl">
+		<property name="sqlSessionTemplate" ref="sqlSession" />
+	</bean>
+	<bean id="shippingAddressDAO" class="com.ucf.jrgc.mall.dao.impl.ShippingAddressDAOImpl">
+		<property name="sqlSessionTemplate" ref="sqlSession" />
+	</bean>
+	<bean id="orderDAO" class="com.ucf.jrgc.mall.dao.impl.OrderDAOImpl">
+		<property name="sqlSessionTemplate" ref="sqlSession" />
+	</bean>
+	<bean id="orderProductDAO" class="com.ucf.jrgc.mall.dao.impl.OrderProductDAOImpl">
+		<property name="sqlSessionTemplate" ref="sqlSession" />
+	</bean>
+	<bean id="productDetailDAO" class="com.ucf.jrgc.mall.dao.impl.ProductDetailDAOImpl">
+		<property name="sqlSessionTemplate" ref="sqlSession" />
+	</bean>
+	<bean id="actUserDAO" class="com.ucf.jrgc.mall.dao.impl.ActUserDAOImpl">
+		<property name="sqlSessionTemplate" ref="sqlSession" />
+	</bean>
+	<bean id="actRunDAO" class="com.ucf.jrgc.mall.dao.impl.ActRunDAOImpl">
+		<property name="sqlSessionTemplate" ref="sqlSession" />
+	</bean>
+	<bean id="actHistroyDAO" class="com.ucf.jrgc.mall.dao.impl.ActHistroyDAOImpl">
+		<property name="sqlSessionTemplate" ref="sqlSession" />
+	</bean>
+	<bean id="beanRecordDAO" class="com.ucf.jrgc.mall.dao.impl.BeanRecordDAOImpl">
+		<property name="sqlSessionTemplate" ref="sqlSession" />
+	</bean>
+	<bean id="smallRedpackageDAO" class="com.ucf.jrgc.mall.dao.impl.SmallRedpackageDAOImpl">
+		<property name="sqlSessionTemplate" ref="sqlSession" />
+	</bean>
+	<bean id="prizeWinnerDAO" class="com.ucf.jrgc.mall.dao.impl.PrizeWinnerDAOImpl">
+		<property name="sqlSessionTemplate" ref="sqlSession" />
+	</bean>
+	<bean id="orderUserDAO" class="com.ucf.jrgc.mall.dao.impl.OrderUserDAOImpl">
+		<property name="sqlSessionTemplate" ref="sqlSession" />
+	</bean>
+	<bean id="ticketDAO" class="com.ucf.jrgc.mall.dao.impl.TicketDAOImpl">
+		<property name="sqlSessionTemplate" ref="sqlSession" />
+	</bean>
+	<bean id="orderStatusFlowDAO" class="com.ucf.jrgc.mall.dao.impl.OrderStatusFlowDAOImpl">
+		<property name="sqlSessionTemplate" ref="sqlSession" />
+	</bean>
+	<bean id="bankCardDAO" class="com.ucf.jrgc.mall.dao.impl.BankCardDAOImpl">
+		<property name="sqlSessionTemplate" ref="sqlSession" />
+	</bean>
+	<bean id="exchangeRuleDAO" class="com.ucf.jrgc.mall.dao.impl.ExchangeRuleDAOImpl">
+		<property name="sqlSessionTemplate" ref="sqlSession" />
+	</bean>
+	<bean id="ticketConfigDAO" class="com.ucf.jrgc.mall.dao.impl.TicketConfigDAOImpl">
+		<property name="sqlSessionTemplate" ref="sqlSession" />
+	</bean>
+	<bean id="transactionsDAO" class="com.ucf.jrgc.mall.dao.impl.TransactionsDAOImpl">
+		<property name="sqlSessionTemplate" ref="sqlSession" />
+	</bean>
+	<bean id="bannerDAO" class="com.ucf.jrgc.mall.dao.impl.BannerDAOImpl">
+		<property name="sqlSessionTemplate" ref="sqlSession" />
+	</bean>
+	<bean id="activityImageDAO" class="com.ucf.jrgc.mall.dao.impl.ActivityImageDAOImpl">
+		<property name="sqlSessionTemplate" ref="sqlSession" />
+	</bean>
+	<bean id="dataDicDAO" class="com.ucf.jrgc.mall.dao.impl.DataDicDAOImpl">
+		<property name="sqlSessionTemplate" ref="sqlSession" />
+	</bean>
+	<bean id="mallCardDAO" class="com.ucf.jrgc.mall.dao.impl.MallCardDAOImpl">
+		<property name="sqlSessionTemplate" ref="sqlSession" />
+	</bean>
+	<bean id="mallVipConfigDAO" class="com.ucf.jrgc.mall.dao.impl.MallVipConfigDAOImpl">
+		<property name="sqlSessionTemplate" ref="sqlSession" />
+	</bean>
+	<bean id="duoBeiProcessDAO" class="com.ucf.jrgc.mall.dao.impl.DuoBeiProcessImpl">
+		<property name="sqlSessionTemplate" ref="sqlSession" />
+	</bean>
+	<bean id="magicAwardDAO" class="com.ucf.jrgc.mall.dao.impl.MagicAwardDAOImpl">
+		<property name="sqlSessionTemplate" ref="sqlSession" />
+	</bean>
+	<bean id="magicConfigDAO" class="com.ucf.jrgc.mall.dao.impl.MagicConfigDAOImpl">
+		<property name="sqlSessionTemplate" ref="sqlSession" />
+	</bean>
+	<bean id="magicRecordDAO" class="com.ucf.jrgc.mall.dao.impl.MagicRecordDAOImpl">
+		<property name="sqlSessionTemplate" ref="sqlSession" />
+	</bean>
+	<bean id="magicVIPDAO" class="com.ucf.jrgc.mall.dao.impl.MagicVIPDAOImpl">
+		<property name="sqlSessionTemplate" ref="sqlSession" />
+	</bean>
+	<bean id="mallRecommendDAO" class="com.ucf.jrgc.mall.dao.impl.MallRecommendDAOImpl">
+		<property name="sqlSessionTemplate" ref="sqlSession" />
+	</bean>
+	<bean id="mallRecommendProductDAO" class="com.ucf.jrgc.mall.dao.impl.MallRecommendProductDAOImpl">
+		<property name="sqlSessionTemplate" ref="sqlSession" />
+	</bean>
+	<bean id="mallSearchRecordDAO" class="com.ucf.jrgc.mall.dao.impl.MallSearchRecordDAOImpl">
+		<property name="sqlSessionTemplate" ref="sqlSession" />
+	</bean>
+	<!-- 购物车 -->
+	<bean id="cartDAO" class="com.ucf.jrgc.mall.dao.impl.CartDAOImpl">
+		<property name="sqlSessionTemplate" ref="sqlSession" />
+	</bean>
+	<!--MALL_BANK_CARD-->
+	<bean id="mallBankCardDAO" class="com.ucf.jrgc.mall.dao.impl.MallBankCardDAOImpl">
+		<property name="sqlSessionTemplate" ref="sqlSession"/>
+	</bean>
+	<!--MALL_BANK_CARD-->
+	<bean id="mallTradeFlowDAO" class="com.ucf.jrgc.mall.dao.impl.MallTradeFlowDAOImpl">
+		<property name="sqlSessionTemplate" ref="sqlSession"/>
+	</bean>
+	<bean id="mallSmsLogDAO" class="com.ucf.jrgc.mall.dao.impl.MallSmsLogDAOImpl">
+		<property name="sqlSessionTemplate" ref="sqlSession"/>
+	</bean>
+
+	<bean id="cheapDAO" class="com.ucf.jrgc.mall.dao.impl.CheapDAOImpl">
+		<property name="sqlSessionTemplate" ref="sqlSession"/>
+	</bean>
+	<bean id="mallDmcDAOImpl" class="com.ucf.jrgc.mall.dao.impl.MallDmcDAOImpl">
+		<property name="sqlSessionTemplate" ref="sqlSession"/>
+	</bean>
+</beans>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liujinxin.dao.dao.FansDAO" > 
+<!-- Result Map-->
+<resultMap id="BaseResultMap" type="com.liujinxin.dao.data.FansDO" >
+	<result column="id" property="id"/>
+	<result column="fans_id" property="fansId"/>
+	<result column="user_id" property="userId"/>
+</resultMap>
+       
+<!-- fans table all fields -->
+<sql id="baseColumnList" >
+	 id,fans_id,user_id
+</sql>
+   
+   
+<!-- 查询条件 -->
+<sql id="exampleWhereClause">
+where 1=1
+<trim  suffixOverrides="," >
+	<if test="id != null" >
+	    and id =  #{id}
+	</if>
+	<if test="fansId != null" >
+	    and fans_id =  #{fansId}
+	</if>
+	<if test="userId != null" >
+	    and user_id =  #{userId}
+	</if>
+</trim>
+</sql>
+   
+
+<!-- 无主键值时插入记录 -->
+<insert id="add" parameterType="Object" >
+  insert into fans(id,fans_id,user_id)
+ values(#{id,jdbcType=INTEGER},#{fansId,jdbcType=INTEGER},#{userId,jdbcType=INTEGER})
+</insert>
+
+<!-- 根据id，修改记录-->  
+ <update id="update" parameterType="Object" >
+  update fans set fans_id=#{fansId,jdbcType=INTEGER},user_id=#{userId,jdbcType=INTEGER} where id=#{id,jdbcType=INTEGER}
+ </update>
+ 
+ <!-- 修改记录，只修改只不为空的字段 -->
+<update id="updateBySelective" parameterType="Object" >
+	update fans set 
+	<trim  suffixOverrides="," >
+	<if test="fansId != null  ">
+		fans_id=#{fansId,jdbcType=INTEGER},
+	</if>
+	<if test="userId != null  ">
+		user_id=#{userId,jdbcType=INTEGER},
+	</if>
+	</trim> where id=#{id,jdbcType=INTEGER}
+</update>
+
+<!-- 删除记录 -->
+<delete id="delete" parameterType="Object">
+	delete 	 from fans where id in  <foreach item="ITEM" collection="array" open="(" separator="," close=")">  #{ITEM} </foreach>
+</delete>
+ 
+<!-- 根据id查询 fans -->
+<select id="queryById"  resultMap="BaseResultMap" parameterType="Object">
+	   	select <include refid="baseColumnList" /> 
+	 from fans where id = #{id,jdbcType=INTEGER}
+  	</select>
+
+<!-- fans 列表总数-->
+<select id="queryByCount" resultType="java.lang.Integer"  parameterType="Object">
+	select count(1) from fans 
+	<include refid="exampleWhereClause"/>
+</select>
+  	
+<!-- 查询fans列表 -->
+<select id="queryByList" resultMap="BaseResultMap"  parameterType="Object">			
+	select 
+	<include refid="baseColumnList"/>
+	from fans 
+	<include refid="exampleWhereClause"/>
+</select>
+  	
+</mapper>   

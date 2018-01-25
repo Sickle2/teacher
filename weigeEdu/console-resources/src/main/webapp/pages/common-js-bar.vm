@@ -1,0 +1,8 @@
+<!-- js start -->
+<!-- session失效 -->
+<script>
+    function logOut(){
+
+        window.location.href = '$!{rc.contextPath}/loginOut';
+    }
+</script>

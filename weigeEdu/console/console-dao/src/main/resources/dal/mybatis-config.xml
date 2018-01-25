@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+		<!--表实体-->
+		<!--  
+		<typeAlias alias="ActivityDO" type="com.weige.edu.jrgc.mall.console.data.ActivityDO" />
+		-->
+	</typeAliases>
+
+	 <plugins>
+        <plugin interceptor="com.weige.edu.framework.paginator.OffsetLimitInterceptor">
+            <property name="dialectClass" value="com.weige.edu.framework.paginator.dialect.OracleDialect"/>
+        </plugin>
+    </plugins>
+	
+	<mappers>
+	    <!--  
+		<mapper resource="dal/sqlmap/promotion-mapper.xml" />
+		-->
+	</mappers>
+	
+</configuration>

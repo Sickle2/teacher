@@ -1,11 +1,12 @@
 package com.teacher.core.user.dao.Impl;
 
 import com.teacher.core.user.dao.UserDao;
-import com.teacher.core.user.model.User;
+import com.teacher.core.user.model.UserDO;
 import com.teacher.util.PubUtil;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,7 +34,7 @@ public class UserDaoImpl implements UserDao{
     @Autowired
     private SessionFactory sessionFactory;
     @Override
-    public Long insertUser(User user) throws Exception {
+    public Long insertUser(UserDO user) throws Exception {
         Session session = PubUtil.createSession(sessionFactory);
         Long idetifier = (Long) session.save(user);
         PubUtil.close(session);
@@ -41,12 +42,12 @@ public class UserDaoImpl implements UserDao{
     }
 
     @Override
-    public User getUser(Long id) throws Exception {
+    public UserDO getUser(Long id) throws Exception {
         Session session = PubUtil.createSession(sessionFactory);
-        Criteria c=session.createCriteria(User.class);
+        Criteria c=session.createCriteria(UserDO.class);
         c.add(Restrictions.eq("id",id));
-        List<User> list =c.list();
-        User user = null;
+        List<UserDO> list =c.list();
+        UserDO user = null;
         if ( 1 == list.size()){
             user=list.get(0);
         }else {
@@ -55,16 +56,36 @@ public class UserDaoImpl implements UserDao{
         session.evict(user);
         PubUtil.close(sessionFactory,session);
 
-        return null;
+        return user;
     }
 
     @Override
-    public User getUserBySlug(String slug) throws Exception {
-        return null;
+    public UserDO getUserBySlug(String slug) throws Exception {
+        Session session = PubUtil.createSession(sessionFactory);
+        Criteria c=session.createCriteria(UserDO.class);
+        c.add(Restrictions.eq("slug",slug));
+        List<UserDO> list =c.list();
+        UserDO user = null;
+        if ( 1 == list.size()){
+            user=list.get(0);
+        }else {
+            user = null;
+        }
+        session.evict(user);
+        PubUtil.close(sessionFactory,session);
+
+        return user;
     }
 
     @Override
-    public void updateUser(User user) throws Exception {
+    public void updateUser(UserDO user) throws Exception {
+        Session session = PubUtil.createSession(sessionFactory);
+        Transaction transaction = session.beginTransaction();
+        session.update(user);
+        transaction.commit();
 
+        session.evict(user);
+        PubUtil.close(sessionFactory,session);
     }
+
 }
